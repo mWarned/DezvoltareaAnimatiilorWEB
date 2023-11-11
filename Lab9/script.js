@@ -59,11 +59,11 @@ canvas.addEventListener('mousemove', function(mouseclick){
 
     if(holding === true){
         selectedShape = "square";
-        for (let j = 0; j<2; j++){
+        for (let j = 0; j<1; j++){
             particle.push(new Particle(selectedShape));
         }
     } else {
-        for (let j = 0; j<2; j++){
+        for (let j = 0; j<1; j++){
             particle.push(new Particle(selectedShape));
         }
     }
@@ -76,7 +76,7 @@ class Particle{
         this.x=mouse.x;
         this.y=mouse.y;
         this.shape = shape;
-        this.size=Math.random()*40;
+        this.size=Math.random()* (20 - 10) + 10 ;
         this.speedX=Math.random()*2.5;
         this.speedY=Math.random()*2.5;
         this.color = setColor();
@@ -85,6 +85,42 @@ class Particle{
         this.x += this.speedX;
         this.y += this.speedY;
         if(this.size>0.2) this.size -= 0.1;
+        this.checkCollision();
+    }
+    checkCollision() {
+        for (let i = 0; i < particle.length; i++) {
+            const checkParticle = particle[i];
+
+            if (this === checkParticle) continue;
+
+            const dx = this.x - checkParticle.x;
+            const dy = this.y - checkParticle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < this.size + checkParticle.size) {
+                const angle = Math.atan2(dy, dx);
+
+                this.x += Math.cos(angle) * (this.size + checkParticle.size - distance) / 2;
+                this.y += Math.sin(angle) * (this.size + checkParticle.size - distance) / 2;
+
+                const thisSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+                const checkParticleSpeed = Math.sqrt(checkParticle.speedX * checkParticle.speedX + checkParticle.speedY * checkParticle.speedY);
+
+                this.speedX = Math.cos(angle) * checkParticleSpeed;
+                this.speedY = Math.sin(angle) * checkParticleSpeed;
+
+                checkParticle.speedX = Math.cos(angle + Math.PI) * thisSpeed;
+                checkParticle.speedY = Math.sin(angle + Math.PI) * thisSpeed;
+            }
+        }
+
+        if (this.x + this.size >= canvas.width || this.x - this.size <= 0) {
+            this.speedX = -this.speedX;
+        }
+    
+        if (this.y + this.size >= canvas.height || this.y - this.size <= 0) {
+            this.speedY = -this.speedY;
+        }
     }
     draw(){
         if (this.shape === "circle") {
