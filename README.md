@@ -1,2 +1,5 @@
 # DezvoltareaAnimatiilorWEB
- Anul 4 Crearea animatiilor CSS si JS
+ Repozitoriul pentru disciplina anului 4 - Dezvoltarea Animatiilor Web (Crearea animatiilor CSS si JS)
+
+## Laboratoarele incarcate:
+  - Laboratorul 9
