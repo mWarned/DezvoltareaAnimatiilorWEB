@@ -3,3 +3,4 @@
 
 ## Laboratoarele incarcate:
   - Laboratorul 8
+  - Laboratorul 9

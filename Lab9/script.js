@@ -85,38 +85,6 @@ class Particle{
         this.x += this.speedX;
         this.y += this.speedY;
         if(this.size>0.2) this.size -= 0.1;
-        this.checkCollision();
-    }
-    checkCollision() {
-        for (let i = 0; i < particle.length; i++) {
-            const checkParticle = particle[i];
-
-            if (this === checkParticle) continue;
-
-            const dx = this.x - checkParticle.x;
-            const dy = this.y - checkParticle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            console.log(distance);
-
-            if (distance < this.size + checkParticle.size) {
-                const angle = Math.atan2(dy, dx);
-                const totalSpeed = this.speed + checkParticle.speed;
-
-                this.x += Math.cos(angle) * (this.size + checkParticle.size - distance) / 2;
-                this.y += Math.sin(angle) * (this.size + checkParticle.size - distance) / 2;
-
-                this.speedX = Math.cos(angle) * totalSpeed;
-                this.speedY = Math.sin(angle) * totalSpeed;
-            }
-        }
-
-        if (this.x + this.size >= canvas.width || this.x - this.size <= 0) {
-            this.speedX = -this.speedX;
-        }
-    
-        if (this.y + this.size >= canvas.height || this.y - this.size <= 0) {
-            this.speedY = -this.speedY;
-        }
     }
     draw(){
         if (this.shape === "circle") {
